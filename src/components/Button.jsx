@@ -1,8 +1,8 @@
 import { StyledButton } from "./styles/Button.styled";
 
-const Button = ({children}) => {
+const Button = ({onClickFn, children}) => {
   return (
-    <StyledButton>
+    <StyledButton onClick={onClickFn}>
       {children}
     </StyledButton>
   );
