@@ -1,10 +1,14 @@
 import styled, { css } from "styled-components"
 
 export const StyledButton = styled.button`
+  display: grid;
+  align-items: center;
   text-transform: uppercase;
-  font-size: 1em;
+  font-size: 0.85rem;
   font-weight: 500;
   font-family: inherit;
+  border-color: transparent;
+  letter-spacing: 2px;
   cursor: pointer;
   transition: var(--transition);
 
@@ -13,8 +17,6 @@ export const StyledButton = styled.button`
       text-transform: capitalize;
       width: auto;
       height: 1.5rem;
-      display: grid;
-      align-items: center;
       gap: 2em;
       background: transparent;
       border: 0;
@@ -22,8 +24,6 @@ export const StyledButton = styled.button`
       color: #C43B31;
       margin: 0 auto;
       margin-top: 1.25rem;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
 
       &:hover {
         color: #A8322A;
@@ -35,11 +35,15 @@ export const StyledButton = styled.button`
     `
   : 
     css`
-      border-radius: 8px;
+      border-top-right-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
       border: none;
-      padding: 0.6em 1.2em;
+      padding: 0.6em 0.85em;
       background-color: #31D3EE;
       color: #1E2A3B;
+      flex: 0 0 5rem;
+      display: grid;
+      align-items: center;
 
       &:hover {
         background-color: #36c2e2;

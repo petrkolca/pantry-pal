@@ -42,10 +42,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    display: flex;
-    place-items: center;
     min-width: 320px;
-    min-height: 100vh;
     line-height: 1.5;
     font-size: 0.875rem;
   }
@@ -75,10 +72,10 @@ export const GlobalStyle = createGlobalStyle`
     margin-bottom: 0.75rem;
   }
   h1 {
-    font-size: 3rem;
+    font-size: 2rem;
   }
   h2 {
-    font-size: 2rem;
+    font-size: 1.45rem;
   }
   h3 {
     font-size: 1.25rem;
@@ -94,10 +91,10 @@ export const GlobalStyle = createGlobalStyle`
 
   @media screen and (min-width: 800px) {
     h1 {
-      font-size: 4rem;
+      font-size: 3rem;
     }
     h2 {
-      font-size: 2.5rem;
+      font-size: 2.25rem;
     }
     h3 {
       font-size: 1.75rem;
@@ -126,16 +123,29 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
     max-width: 35rem;
     margin-top: 8rem;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--light-shadow);
+    transition: var(--transition);
+    padding: 2rem;
+
+    &:hover {
+      box-shadow: var(--dark-shadow);
+    }
+
+    > div {
+      margin-top: 2rem;
+    }
   }
   @media screen and (min-width: 992px) {
     .section-center {
       width: 95vw;
     }
   }
-  main {
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
+
+  .form-control {
+    display: flex;
+    justify-content: center;
   }
 
   @media (prefers-color-scheme: light) {
