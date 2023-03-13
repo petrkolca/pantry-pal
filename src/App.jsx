@@ -3,9 +3,18 @@ import Button from './components/Button';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
+const defaultAlertValues = {
+  show: false,
+  msg: '',
+  type: '',
+}
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [item, setItem] = useState('');
+  const [list, setList] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [alert, setAlert] = useState(defaultAlertValues);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -21,9 +30,11 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <div className="App">
-        <h1>Pantry Pal</h1>
-        <Button onClickFn={onSubmitHandler}>Submit dd</Button>
+      <div className="section">
+        <div className="section-center">
+          <h1>Pantry Pal</h1>
+          <Button onClickFn={onSubmitHandler}>Submit dd</Button>
+        </div>
       </div>
     </>
   )
