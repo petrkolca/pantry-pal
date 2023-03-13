@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import List from './components/List';
+import Input from './components/Input';
 import Button from './components/Button';
 
 import { toast, ToastContainer } from 'react-toastify';
@@ -44,13 +45,13 @@ function App() {
         <form className="" onSubmit={onSubmitHandler}>
           <h1>Pantry Pal</h1>
           <div className="form-control">
-            <input 
+            <Input 
               type="text"
               name="pantry-item"
               id="pantry-item" 
               placeholder="eg. Buy Eggs"
               value={itemName}
-              onChange={onChangeHandler}
+              onChangeFn={onChangeHandler}
             />
             <Button type="submit" onClickFn={() => {}}>
               {isEditing ? "Edit" : "Submit"}
