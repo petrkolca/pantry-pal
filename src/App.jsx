@@ -17,15 +17,21 @@ function App() {
     setItemName(e.target.value)
   };
 
+  const clearList = () => {
+    toast.warning("List has been cleared!", {
+      icon: "❌"
+    });
+    setList([]);
+  }
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     console.log('button clicked!');
 
     if (!itemName) {
       // show alert notification if ALERT is set
-      toast.error("Input is empty! Enter value! 🚨", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 1000
+      toast.error("Input is empty! Enter value!", {
+        icon: "🚨"
       });
       
     } else if(itemName && isEditing) {
@@ -33,9 +39,8 @@ function App() {
 
     } else {
       // Show Success Alert
-      toast.success("Item is added into the list! 🚀", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 1000
+      toast.success("Item is added into the list!", {
+        icon: "🚀"
       });
 
       // Create NEW Item
@@ -52,7 +57,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer limit={1} />
+      <ToastContainer limit={1} hideProgressBar={true} autoClose={700} position="top-center" />
       <section className="section-center">
         <form className="" onSubmit={onSubmitHandler}>
           <h1>Pantry Pal</h1>
@@ -74,7 +79,7 @@ function App() {
           {list.length > 0 && (
             <List items={list} />
           )}
-          <Button linkBtn>Clear items</Button>
+          <Button linkBtn onClick={clearList}>Clear items</Button>
         </div>
       </section>
     </>
