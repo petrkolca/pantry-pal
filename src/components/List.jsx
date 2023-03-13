@@ -3,7 +3,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa'
 import Button from './Button';
 import { StyledPantryList, PantryItem } from './styles/List.styled'
 
-const List = ({items, removeItem}) => {
+const List = ({items, removeItem, editItem}) => {
   return (
     <StyledPantryList>
     {items.map(({id, title}) => (
@@ -11,7 +11,7 @@ const List = ({items, removeItem}) => {
         <input type="checkbox" />
         <p>{title}</p>
         <div className="btn-ctn">
-          <Button type="button" editBtn>
+          <Button type="button" editBtn onClick={() => editItem(id)}>
             <FaEdit />
           </Button>
           <Button type="button" deleteBtn onClick={() => removeItem(id)}>

@@ -34,6 +34,14 @@ function App() {
     setList(list.filter((item) => item.id !== id))
   }
 
+  const editItem = (id) => {
+    // const specificItem = list.find((item) => item.id === id);
+    const existingItemIndex = list.findIndex((item) => item.id === id);
+    setIsEditing(true);
+    setEditId(id);
+    setItemName(list[existingItemIndex].title);
+  }
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     console.log('button clicked!');
@@ -43,15 +51,47 @@ function App() {
       toast.error("Input is empty! Enter value!", {
         icon: "🚨"
       });
+
+      return;
       
     } else if(itemName && isEditing) {
       // Edit item in form func.
+      setList(list.map((item) => {
+        // finding itemName with same EDIT ID
+        // 
+        if(item.id === editId) {
+          return {...item, title: itemName}
+        }
 
-    } else {
+        return item;
+      }))
+      
+      // testing another variation of Editing Item under Index
+      // const existingItemIndex = list.findIndex((item) => item.id === editId);
+      // const existingItem = list[existingItemIndex];
+
+      // let updatedList;
+
+      // const updatedItem = {
+      //   ...existingItem,
+      //   title : itemName
+      // };
+      // updatedList = [...list];
+      // updatedList[existingItemIndex] = updatedItem;
+
+      // setList(updatedList);
+
+
+      setItemName("");  // clear input value
+      setEditId(null);
+      setIsEditing(false);
+
       // Show Success Alert
-      toast.success("Item is added into the list!", {
+      toast.success("Item title is hanged!", {
         icon: "🚀"
       });
+
+    } else {
 
       // Create NEW Item
       const newItem = {
@@ -60,6 +100,12 @@ function App() {
       }
       setList([...list, newItem]);
       setItemName("");  // clear input value
+
+      // Show Success Alert
+      toast.success("Item is added into the list!", {
+        icon: "🚀"
+      });
+
     }
 
 
@@ -87,7 +133,7 @@ function App() {
         </form>
         <div>
           {list.length > 0 && (
-            <List items={list} removeItem={removeItem} />
+            <List items={list} removeItem={removeItem} editItem={editItem} />
           )}
           <Button linkBtn onClick={clearList}>Clear items</Button>
         </div>
