@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import List from './components/List';
 import Input from './components/Input';
 import Button from './components/Button';
@@ -6,10 +6,20 @@ import Button from './components/Button';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
+const getLocalStorage = () => {
+  let list = localStorage.getItem("list");
+
+  if (list) {
+    return JSON.parse(list)
+  } else {
+    return [];
+  }
+}
+
 
 function App() {
   const [itemName, setItemName] = useState("");
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(getLocalStorage);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
 
@@ -57,8 +67,8 @@ function App() {
     } else if(itemName && isEditing) {
       // Edit item in form func.
       setList(list.map((item) => {
+        
         // finding itemName with same EDIT ID
-        // 
         if(item.id === editId) {
           return {...item, title: itemName}
         }
@@ -110,6 +120,13 @@ function App() {
 
 
   };
+
+  useEffect(() => {
+    // adding Items list to the Browser storage
+    // overwriting items in storage on every single 
+    // list manipulation (add/edit/delate)
+    localStorage.setItem('list', JSON.stringify(list));
+  },[list])
 
   return (
     <>
