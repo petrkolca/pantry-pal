@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import List from './components/List';
 import Button from './components/Button';
+
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,12 +32,11 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <div className="section">
-        <div className="section-center">
-          <h1>Pantry Pal</h1>
-          <Button onClickFn={onSubmitHandler}>Submit dd</Button>
-        </div>
-      </div>
+      <section className="section-center">
+        <h1>Pantry Pal</h1>
+        <List />
+        <Button linkBtn>Clear items</Button>
+      </section>
     </>
   )
 }
