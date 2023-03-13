@@ -22,6 +22,16 @@ function App() {
       icon: "❌"
     });
     setList([]);
+  };
+
+  const removeItem = (id) => {
+    toast.error("Item removed from the list!", {
+      icon: "❌"
+    });
+
+    // Removing item from the list by
+    // filtering list to show All items except item with id 
+    setList(list.filter((item) => item.id !== id))
   }
 
   const onSubmitHandler = (e) => {
@@ -59,7 +69,7 @@ function App() {
     <>
       <ToastContainer limit={1} hideProgressBar={true} autoClose={700} position="top-center" />
       <section className="section-center">
-        <form className="" onSubmit={onSubmitHandler}>
+        <form onSubmit={onSubmitHandler}>
           <h1>Pantry Pal</h1>
           <div className="form-control">
             <Input 
@@ -70,14 +80,14 @@ function App() {
               value={itemName}
               onChangeFn={onChangeHandler}
             />
-            <Button type="submit" >
+            <Button type="submit">
               {isEditing ? "Edit" : "Submit"}
             </Button>
           </div>
         </form>
         <div>
           {list.length > 0 && (
-            <List items={list} />
+            <List items={list} removeItem={removeItem} />
           )}
           <Button linkBtn onClick={clearList}>Clear items</Button>
         </div>

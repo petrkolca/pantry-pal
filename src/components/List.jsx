@@ -3,18 +3,18 @@ import { FaEdit, FaTrash } from 'react-icons/fa'
 import Button from './Button';
 import { StyledPantryList, PantryItem } from './styles/List.styled'
 
-const List = ({items}) => {
+const List = ({items, removeItem}) => {
   return (
     <StyledPantryList>
     {items.map(({id, title}) => (
-      <PantryItem>
+      <PantryItem key={id}>
         <input type="checkbox" />
-        <p>fdfd</p>
+        <p>{title}</p>
         <div className="btn-ctn">
           <Button type="button" editBtn>
             <FaEdit />
           </Button>
-          <Button type="button" deleteBtn>
+          <Button type="button" deleteBtn onClick={() => removeItem(id)}>
             <FaTrash />
           </Button>
         </div>
