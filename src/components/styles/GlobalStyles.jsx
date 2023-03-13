@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components"
 export const GlobalStyle = createGlobalStyle`
   :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
+    line-height: 1.25;
     font-weight: 400;
 
     color-scheme: light dark;
@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
     // global variables
     --transition: all 0.3s linear;
     --spacing: 0.1rem;
-    --radius: 0.25rem;
+    --radius: 0.5rem;
     --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     --max-width: 1170px;
@@ -86,7 +86,7 @@ export const GlobalStyle = createGlobalStyle`
 
   p {
     margin-bottom: 1.25rem;
-    color: var(--clr-grey-5);
+    color: #1e2a3b;
   }
 
   @media screen and (min-width: 800px) {

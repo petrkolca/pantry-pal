@@ -13,7 +13,7 @@ const defaultAlertValues = {
 }
 
 function App() {
-  const [itemName, setItemName] = useState('');
+  const [itemName, setItemName] = useState("");
   const [list, setList] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -27,14 +27,31 @@ function App() {
     e.preventDefault();
     console.log('button clicked!');
 
-    if (alert) {
-      // show alert notification if ALERT is set
-      toast.success("Item is added into the list! 🚀", {
-        position: toast.POSITION.TOP_RIGHT,
-        className: 'alert',
-        autoClose: 1000
-      })
+    if (!itemName) {
+      
+      if (alert) {
+        // show alert notification if ALERT is set
+        toast.success("Item is added into the list! 🚀", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: 'alert',
+          autoClose: 1000
+        })
+      }
+    } else if(itemName && isEditing) {
+      // Edit item in form func.
+
+    } else {
+      // Show Success Alert
+
+      // Create NEW Item
+      const newItem = {
+        id: new Date().getTime().toString(),
+        title: itemName,
+      }
+      setList([...list, newItem]);
+      setItemName("");  // clear input value
     }
+
 
   };
 
@@ -59,7 +76,7 @@ function App() {
           </div>
         </form>
         <div>
-          <List />
+          <List items={list} />
           <Button linkBtn>Clear items</Button>
         </div>
       </section>

@@ -41,7 +41,6 @@ export const StyledButton = styled.button`
       padding: 0.6em 0.85em;
       background-color: #31D3EE;
       color: #1E2A3B;
-      flex: 0 0 5rem;
       display: grid;
       align-items: center;
 
@@ -54,6 +53,21 @@ export const StyledButton = styled.button`
       }
     `
   }
+
+  ${props => props.editBtn ? 
+    css`
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: var(--radius);
+      border-bottom-left-radius: var(--radius);
+      background-color: #CED4DA;
+
+      &:hover {
+        background-color: #a6a8aa;
+      }
+    `
+  : css``}
+  
 
   @media (prefers-color-scheme: light) {
     ${props => props.linkBtn ? 
@@ -69,8 +83,48 @@ export const StyledButton = styled.button`
       css`
         background-color: #FBC231;
         color: #1E2A3B;
+
+        &:hover {
+          background-color: #FFD770;
+        }
       `
     }
+
+    ${props => props.editBtn ? 
+      css`
+        background-color: #CED4DA;
+
+        svg {
+          fill: #5F5A59;
+        }
+
+        &:hover {
+          background-color: #a6a8aa;
+
+          svg {
+            fill: #CED4DA;
+          }
+        }
+      `
+    : css``}
+
+    ${props => props.deleteBtn ? 
+      css`
+        background-color: #F2A6A6;
+
+        svg {
+          fill: #D61F1F;
+        }
+
+        &:hover {
+          background-color: #E85E5E;
+
+          svg {
+            fill: #F2A6A6;
+          } 
+        }
+      `
+    : css``}
   }
 
 `

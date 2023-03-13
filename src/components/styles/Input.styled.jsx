@@ -10,6 +10,6 @@ export const StyledInput = styled.input`
   border: 1px solid #DEE2E6;
 
   &::placeholder {
-    color: #DEE2E6;
+    color: #bec1c4;
   }
 `
