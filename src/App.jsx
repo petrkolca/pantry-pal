@@ -10,7 +10,9 @@ import "react-toastify/dist/ReactToastify.css";
 const getLocalStorage = () => {
   let list = localStorage.getItem("list");
 
+  
   if (list) {
+    console.log("list on page refresh: ,", list);
     return JSON.parse(list)
   } else {
     return [];
@@ -29,7 +31,7 @@ function App() {
   };
 
   const onChangeFilterHandler = (e) => {
-    console.log(e.target.value)
+    console.log("Filter value is: ", e.target.value)
   };
 
   const clearList = () => {
@@ -55,6 +57,22 @@ function App() {
     setIsEditing(true);
     setEditId(id);
     setItemName(list[existingItemIndex].title);
+  }
+
+  const completeItem = (itemId, event) => {
+    const isChecked = event.target.checked;
+    
+    // Set item complete parameter
+    setList(list.map((item) => {
+      
+      // finding itemName with same itemId
+      if(item.id === itemId) {
+        // console.log("checkbox value: ", isChecked);
+        return {...item, completed: isChecked}
+      }
+
+      return item;
+    }))
   }
 
   const onSubmitHandler = (e) => {
@@ -111,6 +129,7 @@ function App() {
       // Create NEW Item
       const newItem = {
         id: new Date().getTime().toString(),
+        completed: false,
         title: itemName,
       }
       setList([...list, newItem]);
@@ -170,7 +189,7 @@ function App() {
         </form>
         <div>
           {list.length > 0 && (
-            <List items={list} removeItem={removeItem} editItem={editItem} />
+            <List items={list} removeItem={removeItem} editItem={editItem} completeItem={completeItem} />
           )}
           <Button linkBtn onClick={clearList}>Clear items</Button>
         </div>
