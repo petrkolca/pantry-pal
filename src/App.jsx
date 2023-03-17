@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import List from './components/List';
 import Input from './components/Input';
+import Selectbox from './components/Selectbox';
 import Button from './components/Button';
 
 import { toast, ToastContainer } from 'react-toastify';
@@ -25,6 +26,10 @@ function App() {
 
   const onChangeHandler = (e) => {
     setItemName(e.target.value)
+  };
+
+  const onChangeFilterHandler = (e) => {
+    console.log(e.target.value)
   };
 
   const clearList = () => {
@@ -133,7 +138,22 @@ function App() {
       <ToastContainer limit={1} hideProgressBar={true} autoClose={700} position="top-center" />
       <section className="section-center">
         <form onSubmit={onSubmitHandler}>
-          <h1>Pantry Pal</h1>
+          <div className="form-header">
+            <h1>Pantry Pal</h1>
+            {!isEditing ? (
+              <Selectbox 
+                className="filter-pantry-items-list" 
+                name="pantry-list" 
+                id="pantry-list"
+                value=""
+                onChangeFn={onChangeFilterHandler}
+              >
+                <option value="all">All</option>
+                <option value="completed">Completed</option>
+                <option value="uncompleted">Uncompleted</option>
+              </Selectbox>
+            ) : null}
+          </div>
           <div className="form-control">
             <Input 
               type="text"

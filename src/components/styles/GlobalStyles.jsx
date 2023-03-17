@@ -143,6 +143,15 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2;
+    margin-bottom: 1.2em;
+  } 
+
   .form-control {
     display: flex;
     justify-content: center;
