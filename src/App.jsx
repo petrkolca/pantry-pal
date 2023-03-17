@@ -12,7 +12,7 @@ const getLocalStorage = () => {
 
   
   if (list) {
-    console.log("list on page refresh: ,", list);
+    // console.log("list on page refresh: ,", list);
     return JSON.parse(list)
   } else {
     return [];
@@ -25,13 +25,15 @@ function App() {
   const [list, setList] = useState(getLocalStorage);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterdList, setFilterdList] = useState([]);
 
   const onChangeHandler = (e) => {
     setItemName(e.target.value)
   };
 
   const onChangeFilterHandler = (e) => {
-    console.log("Filter value is: ", e.target.value)
+    setFilterStatus(e.target.value);
   };
 
   const clearList = () => {
@@ -74,6 +76,28 @@ function App() {
       return item;
     }))
   }
+
+  const filteredPantryList = () => {
+    const completedValue = filterStatus === "completed" ? true : false;
+    // console.log("Filter status is: ", completedValue);
+
+    if (filterStatus === "all") {
+      // making copy of the Main list with ALL items
+      setFilterdList(list);
+
+    } else {
+      // making copy of the Main list and filter only items 
+      // with relevant parameter value
+      setFilterdList(
+        list.filter((item) => {
+          return (
+            // return items matching passed completed parameter
+            item.completed === completedValue
+          )
+        })
+      );
+    }
+  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -150,7 +174,9 @@ function App() {
     // overwriting items in storage on every single 
     // list manipulation (add/edit/delate)
     localStorage.setItem('list', JSON.stringify(list));
-  },[list])
+    // updating Filtered List depending on Apps Filter Status
+    filteredPantryList();
+  }, [list, filterStatus]);
 
   return (
     <>
@@ -164,7 +190,7 @@ function App() {
                 className="filter-pantry-items-list" 
                 name="pantry-list" 
                 id="pantry-list"
-                value=""
+                value={filterStatus}
                 onChangeFn={onChangeFilterHandler}
               >
                 <option value="all">All</option>
@@ -188,8 +214,8 @@ function App() {
           </div>
         </form>
         <div>
-          {list.length > 0 && (
-            <List items={list} removeItem={removeItem} editItem={editItem} completeItem={completeItem} />
+          {filterdList.length > 0 && (
+            <List items={filterdList} removeItem={removeItem} editItem={editItem} completeItem={completeItem} />
           )}
           <Button linkBtn onClick={clearList}>Clear items</Button>
         </div>
