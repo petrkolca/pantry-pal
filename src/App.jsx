@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import List from './components/List';
 import Input from './components/Input';
 import Selectbox from './components/Selectbox';
@@ -21,15 +21,15 @@ const getLocalStorage = () => {
 
 
 function App() {
-  const [itemName, setItemName] = useState("");
+  const [inputQuery, setInputQuery] = useState("");
   const [list, setList] = useState(getLocalStorage);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
   const [filterStatus, setFilterStatus] = useState("all");
-  const [filterdList, setFilterdList] = useState([]);
+  // const [filterdList, setFilterdList] = useState([]);
 
   const onChangeHandler = (e) => {
-    setItemName(e.target.value)
+    setInputQuery(e.target.value)
   };
 
   const onChangeFilterHandler = (e) => {
@@ -58,7 +58,7 @@ function App() {
     const existingItemIndex = list.findIndex((item) => item.id === id);
     setIsEditing(true);
     setEditId(id);
-    setItemName(list[existingItemIndex].title);
+    setInputQuery(list[existingItemIndex].title);
   }
 
   const completeItem = (itemId, event) => {
@@ -67,7 +67,7 @@ function App() {
     // Set item complete parameter
     setList(list.map((item) => {
       
-      // finding itemName with same itemId
+      // finding inputQuery with same itemId
       if(item.id === itemId) {
         // console.log("checkbox value: ", isChecked);
         return {...item, completed: isChecked}
@@ -77,33 +77,50 @@ function App() {
     }))
   }
 
-  const filteredPantryList = () => {
+  // const filteredPantryList = () => {
+  //   const completedValue = filterStatus === "completed" ? true : false;
+  //   // console.log("Filter status is: ", completedValue);
+
+  //   if (filterStatus === "all") {
+  //     // making copy of the Main list with ALL items
+  //     setFilterdList(list);
+
+  //   } else {
+  //     // making copy of the Main list and filter only items 
+  //     // with relevant parameter value
+  //     setFilterdList(
+  //       list.filter((item) => {
+  //         return (
+  //           // return items matching passed completed parameter
+  //           item.completed === completedValue
+  //         )
+  //       })
+  //     );
+  //   }
+  // };
+  
+  // updating Filtered List depending on Apps Filter Status
+  // using useMemo because in order to return a Value of Array
+  const filteredItems = useMemo(() => {
     const completedValue = filterStatus === "completed" ? true : false;
-    // console.log("Filter status is: ", completedValue);
 
-    if (filterStatus === "all") {
-      // making copy of the Main list with ALL items
-      setFilterdList(list);
+    return list.filter((item) => {
+      if (filterStatus !== "all") {
+        // filtering items with parametr matching filter Status
+        return item.completed === completedValue;
+      } else {
+        // returning all items in the list
+        return item;
+      }
+    })
+  }, [list, filterStatus]);
 
-    } else {
-      // making copy of the Main list and filter only items 
-      // with relevant parameter value
-      setFilterdList(
-        list.filter((item) => {
-          return (
-            // return items matching passed completed parameter
-            item.completed === completedValue
-          )
-        })
-      );
-    }
-  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     console.log('button clicked!');
 
-    if (!itemName) {
+    if (!inputQuery) {
       // show alert notification if ALERT is set
       toast.error("Input is empty! Enter value!", {
         icon: "🚨"
@@ -111,13 +128,13 @@ function App() {
 
       return;
       
-    } else if(itemName && isEditing) {
+    } else if(inputQuery && isEditing) {
       // Edit item in form func.
       setList(list.map((item) => {
         
-        // finding itemName with same EDIT ID
+        // finding inputQuery with same EDIT ID
         if(item.id === editId) {
-          return {...item, title: itemName}
+          return {...item, title: inputQuery}
         }
 
         return item;
@@ -131,7 +148,7 @@ function App() {
 
       // const updatedItem = {
       //   ...existingItem,
-      //   title : itemName
+      //   title : inputQuery
       // };
       // updatedList = [...list];
       // updatedList[existingItemIndex] = updatedItem;
@@ -139,7 +156,7 @@ function App() {
       // setList(updatedList);
 
 
-      setItemName("");  // clear input value
+      setInputQuery("");  // clear input value
       setEditId(null);
       setIsEditing(false);
 
@@ -154,10 +171,10 @@ function App() {
       const newItem = {
         id: new Date().getTime().toString(),
         completed: false,
-        title: itemName,
+        title: inputQuery,
       }
       setList([...list, newItem]);
-      setItemName("");  // clear input value
+      setInputQuery("");  // clear input value
 
       // Show Success Alert
       toast.success("Item is added into the list!", {
@@ -172,11 +189,9 @@ function App() {
   useEffect(() => {
     // adding Items list to the Browser storage
     // overwriting items in storage on every single 
-    // list manipulation (add/edit/delate)
+    // list manipulation (add/edit/delate/checked)
     localStorage.setItem('list', JSON.stringify(list));
-    // updating Filtered List depending on Apps Filter Status
-    filteredPantryList();
-  }, [list, filterStatus]);
+  }, [list]);
 
   return (
     <>
@@ -205,7 +220,7 @@ function App() {
               name="pantry-item"
               id="pantry-item" 
               placeholder="eg. Buy Eggs"
-              value={itemName}
+              value={inputQuery}
               onChangeFn={onChangeHandler}
             />
             <Button type="submit">
@@ -214,8 +229,8 @@ function App() {
           </div>
         </form>
         <div>
-          {filterdList.length > 0 && (
-            <List items={filterdList} removeItem={removeItem} editItem={editItem} completeItem={completeItem} />
+          {filteredItems.length > 0 && (
+            <List items={filteredItems} removeItem={removeItem} editItem={editItem} completeItem={completeItem} />
           )}
           <Button linkBtn onClick={clearList}>Clear items</Button>
         </div>
